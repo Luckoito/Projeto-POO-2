@@ -8,8 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-@Configuration
 
+@Configuration
 public class SecurityConfig {
 
     @Bean
@@ -28,12 +28,14 @@ public class SecurityConfig {
                     .antMatchers(
                         "/css/**",
                         "/js/**"
-                    ).permitAll()
-                    .anyRequest().authenticated()
+                    )
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
             )
             .formLogin(form ->
                 form
-                    .loginPage("/login")
+                    .loginPage("/Login/login")
                     .loginProcessingUrl("/login")
                     .successHandler((request, response, authentication) -> {
                         response.sendRedirect("/dashboard");
