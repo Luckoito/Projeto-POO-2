@@ -13,12 +13,10 @@ public class UserController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-    @ModelAndView("/login")
+    @GetMapping("/Login/login")
     public ModelAndView login() {
         ModelAndView mv = new ModelAndView();
     mv.setViewName("Login/login");
         return mv;
     }
-
-
 }
