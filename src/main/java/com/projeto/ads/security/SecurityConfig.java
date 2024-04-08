@@ -21,25 +21,20 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-        .authorizeRequests(authorizeRequests ->
-                authorizeRequests
-                    .antMatchers(
-                        "/css/**",
-                        "/js/**"
-                    )
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
+        http.csrf(csrf -> csrf.disable())
+            .authorizeRequests(authorize ->
+                authorize
+                .antMatchers("/css/**", "/js/**").permitAll()
+                .antMatchers("/login", "/register").permitAll()
+                .anyRequest().authenticated()
             )
             .formLogin(form ->
                 form
-                    .loginPage("/Login/login")
+                    .loginPage("/login")
                     .loginProcessingUrl("/login")
-                    .successHandler((request, response, authentication) -> {
-                        response.sendRedirect("/dashboard");
-                    })
+                    .successHandler((request, response, authentication) -> response.sendRedirect("/dashboard"))
                     .permitAll()
             );
         return http.build();
