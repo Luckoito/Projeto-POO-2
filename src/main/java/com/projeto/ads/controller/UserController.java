@@ -1,6 +1,7 @@
 package com.projeto.ads.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +21,7 @@ import com.projeto.ads.model.User;
 import com.projeto.ads.model.Role;
 import com.projeto.ads.repository.RoleRepository;
 import com.projeto.ads.repository.UserRepository;
+import com.projeto.ads.service.UserService;
 
 
 @Controller
@@ -33,6 +35,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/login")
     public ModelAndView login() {
@@ -59,8 +63,10 @@ public class UserController {
     ) {
         ModelAndView mv = new ModelAndView();
 
-        if(!user.getPassword().equals(confirmPassword)) {
-            mv.addObject("error", "As senhas não conferem");
+        String error = userService.validateErrors(user, confirmPassword, birthDateString);
+
+        if(error != null) {
+            mv.addObject("error", error);
             mv.addObject("user", user);
             mv.setViewName("Login/register");
             return mv;
