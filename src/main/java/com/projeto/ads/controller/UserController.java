@@ -46,6 +46,21 @@ public class UserController {
         return mv;
     }
 
+    @GetMapping("/resetPassword")
+    public ModelAndView resetPassword() {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("user", new User());
+        mv.setViewName("Login/resetPassword");
+        return mv;
+    }
+
+    @PostMapping("/resetPassword")
+    public ModelAndView resetPassword(
+        @ModelAttribute User user
+    ) {
+        return new ModelAndView("redirect:/login");
+    }
+
     @GetMapping("/register")
     public ModelAndView register(Model model) {
         ModelAndView mv = new ModelAndView();

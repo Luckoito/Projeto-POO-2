@@ -27,7 +27,7 @@ public class SecurityConfig {
             .authorizeRequests(authorize ->
                 authorize
                 .antMatchers("/css/**", "/js/**").permitAll()
-                .antMatchers("/login", "/register").permitAll()
+                .antMatchers("/login", "/register", "/resetPassword").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form ->

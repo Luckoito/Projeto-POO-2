@@ -41,6 +41,8 @@ public class User {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
+    private String token;
+
     public Long getId() {
         return id;
     }
